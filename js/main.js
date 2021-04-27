@@ -129,7 +129,7 @@ function importTileLayers(map) {
 // The URI inside of the $.ajax("URI") function parameter is where you'll put
 // the location of your json data file.
 function importJsonData(map) {
-    $.ajax("https://raw.githubusercontent.com/TimopheyKor/SpanishTravelersV3/master/Map_Points_Data.json", {
+    $.ajax("https://raw.githubusercontent.com/TimopheyKor/Spanish-Travelers-Interactive-Map/main/Map_Points_Data.json", {
         dataType: "json",
         success: function(response) {
             // Information for a custom leaflet marker.
