@@ -1,0 +1,60 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -4.02748,
+                    39.860393
+                ]
+            },
+            "properties": {
+                "name": "Popup Title",
+                "images": [
+                    {
+                        "tombstone": "Text area for name / tombstone / short description of primary image",
+                        "description": "Text area for additional description of primary image",
+                        "imgURL": "https://mam.org/images/artist-travellers/Blum,%20Spanish%20Courtyard/Blum,%20Spanish%20Courtyard,%20Cincinnati,%202002.104.jpg"
+                    },
+                    {
+                        "imgURL": "https://mam.org/images/artist-travellers/Chase,%20Sunny%20Spain/Blum,%20Toledo%20Water-Carrier,%20Fred%20Baker%20Collection.jpg",
+                        "tombstone": "Text area for name / tombstone / short description of gallery image",
+                        "description": "Text area for additional description of gallery image"
+                    },
+                    {
+                        "imgURL": "https://mam.org/images/artist-travellers/Chase,%20Sunny%20Spain/Blum,%20Toledo%20Water-Carrier,%20Fred%20Baker%20Collection.jpg",
+                        "tombstone": "Text area for name / tombstone / short description of gallery image",
+                        "description": "Text area for additional description of gallery image"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -4.52748,
+                    39.360393
+                ]
+            },
+            "properties": {
+                "name": "Popup Title",
+                "images": [
+                    {
+                        "tombstone": "Text area for name / tombstone / short description of primary image",
+                        "description": "Text area for additional description of primary image",
+                        "imgURL": "https://mam.org/images/artist-travellers/Blum,%20Spanish%20Courtyard/Blum,%20Spanish%20Courtyard,%20Cincinnati,%202002.104.jpg"
+                    },
+                    {
+                        "imgURL": "https://mam.org/images/artist-travellers/Chase,%20Sunny%20Spain/Blum,%20Toledo%20Water-Carrier,%20Fred%20Baker%20Collection.jpg",
+                        "tombstone": "Text area for name / tombstone / short description of gallery image",
+                        "description": "Text area for additional description of gallery image"
+                    }
+                ]
+            }
+        }
+    ]
+}
