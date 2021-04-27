@@ -40,6 +40,9 @@ const CENTER = [39.85880, -2.6];
 const MAXBOUND_CORNER_ONE = [46.270583, -14.947324]
 const MAXBOUND_CORNER_TWO = [30.780441, 9.621250]
 
+// Reset Zoom button in index.html
+const resetZoomBtn = document.querySelector('.zoom-button');
+
 // Div in index.html used as a container for the gallery in InteractivePopup
 const GALLERY_SLIDE = document.querySelector('.gallery-slide');
 
@@ -58,9 +61,11 @@ const SIZE = 400;
 function main() {
     var maxBounds = createMaxBounds();
     var leafMap = createBaseMap(maxBounds);
+    counter = 0;
     importTileLayers(leafMap);
     importJsonData(leafMap);
     initGallery();
+    addEventCheck(leafMap);
 }
 main();
 
@@ -168,7 +173,6 @@ function importJsonData(map) {
     });
 }
 
-
 // openPopup shows the InteractivePopup
 function openPopup(feature, layer) {
     hideTitle();
@@ -176,6 +180,7 @@ function openPopup(feature, layer) {
     document.getElementById("my-popup").style.height = "100%";
     document.getElementById("return-to-map-btn").style.display = "block";
 }
+
 // closePopup hides the InteractivePopup
 function closePopup() {
     document.getElementById("my-popup").style.height = "0";
@@ -190,6 +195,7 @@ function hideTitle() {
     console.log("Hiding Title");
     document.getElementById("title").style.opacity = 0;
 }
+
 // hideTitle shows the title
 function showTitle() {
     document.getElementById("title").style.opacity = 1;
@@ -261,6 +267,7 @@ function focusOnImage() {
         image.style.width = "auto";
     }
 }
+
 // closeImage hides fullscreen images if they're clicked again.
 function closeImage() {
     var imageDiv = document.getElementById("my-popup-image");
@@ -279,15 +286,22 @@ function closeImage() {
     image.style.width = "100%";
 }
 
-// Making sure that if the user presses escape to close instead of clicking again, it closes
-document.addEventListener("keyup", function(event) {
-    var x = event.code;
-    if (x == "Escape") {
-        if (document.getElementById("my-popup-image").style.height == "100vh") {
-            closeImage();
+// addEventCheck adds event listeners to the document that make sure the escape
+// key properly exits out of any full-screen functionality, and for the
+// Reset Zoom Button to reset the zoom on click.
+function addEventCheck(map) {
+    document.addEventListener("keyup", function(event) {
+        var x = event.code;
+        if (x == "Escape") {
+            if (document.getElementById("my-popup-image").style.height == "100vh") {
+                closeImage();
+            }
         }
-    }
-})
+    });
+    resetZoomBtn.addEventListener('click', function(event) {
+        map.setView(CENTER, INITIAL_ZOOM);
+    });
+}
 
 // activateReadMoreButton show a "read more" button if description text in the
 // InteractivePopup is out-of-bounds what it's opened, which allows users to 
@@ -297,6 +311,7 @@ function activateReadMoreButton() {
     readMoreButton.style.display = "block";
     readMoreButton.disabled = false;
 }
+
 // disableReadMoreButton hides the "read more" button if all of the
 // InteractivePopup text is visible when it's opened.
 function disableReadMoreButton() {
@@ -305,7 +320,7 @@ function disableReadMoreButton() {
     readMoreButton.disabled = true;
 }
 
-// Clicking "read more" button enables scrolling through extra text
+// enableScroll allows users to scroll in InteractivePopup description fields
 function enableScroll() {
     var popupInfo = document.getElementById("my-popup-info");
     var descriptionDiv = document.getElementById("my-popup-description");
@@ -315,13 +330,16 @@ function enableScroll() {
     disableReadMoreButton()
 }
 
-function disabeScroll() {
+// disableScroll disables the functionality for users to scroll in
+// InteractivePopup description fields
+function disableScroll() {
     var popupInfo = document.getElementById("my-popup-info");
     popupInfo.style.overflow = "hidden";
     $("#my-popup-info").addClass('stop-scrolling');
 }
 
-// Check if scrolling is necessary or not
+// checkOverflow compares the combined heights of text in InteractivePopup
+// description fields and determines if scrolling is necessary or not.
 function checkOverflow() {
     var popupInfo = document.getElementById("my-popup-info");
     var tombstoneDiv = document.getElementById("my-popup-tombstone");
@@ -336,7 +354,8 @@ function checkOverflow() {
     return false;
 }
 
-// Selects all data from an image in the gallery when it's clicked
+// selectImage reads all data from an image in the InteractivePopup gallery 
+// when it's clicked
 function selectImage(imgURL, tombstone, description) {
     // Get the HTML fields which contain the image, tombstone, and description
     var mainImageField = document.getElementById("my-popup-image");
@@ -354,12 +373,11 @@ function selectImage(imgURL, tombstone, description) {
     // Checking for images without description data to avoid null error
     if (description == null) {
         description = "";
-    } else {
-        descriptionField.innerHTML = '<p>' + description + '</br></br></p>';
     }
+    descriptionField.innerHTML = '<p>' + description + '</br></br></p>';
 
     // Resetting defaults for scrollability
-    disabeScroll();
+    disableScroll();
     disableReadMoreButton();
     if (checkOverflow()) {
         // Activate Read More button if checkOverflow returns true
@@ -367,7 +385,8 @@ function selectImage(imgURL, tombstone, description) {
     }
 }
 
-// Helper function that gives each image in the gallery the selectImage() function on click
+// activateImageSelection gives each image in the InteractivePopup gallery
+// on-click functionality to be selected
 function activateImageSelection(galleryImages, imageArray) {
     var i;
     var tombstoneArray = [];
@@ -382,17 +401,11 @@ function activateImageSelection(galleryImages, imageArray) {
     }
 }
 
-var galleryImages;
-
-// Counter for image tracking
-var counter = 0;
-
 // initGallery sets the initial position of the gallery and resets button states
 function initGallery() {
     GALLERY_SLIDE.style.transform = 'translateX(' + (-SIZE * counter) + 'px)';
     darkenBtn(prevBtn);
 }
-
 
 // darkenBtn lowers the visibility of a button when it's rendered inactive
 function darkenBtn(btn) {
